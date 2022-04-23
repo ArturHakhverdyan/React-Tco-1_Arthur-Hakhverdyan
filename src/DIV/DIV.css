@@ -1,0 +1,8 @@
+.div{
+display: flex;
+}
+.div div{
+    margin: 7%;
+    text-align: center;
+    padding:20px;
+}
