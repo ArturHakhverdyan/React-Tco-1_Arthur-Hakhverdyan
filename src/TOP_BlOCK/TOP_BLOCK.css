@@ -1,0 +1,9 @@
+.top{
+    text-align: center;
+}
+.top h1 span{
+    color: green;
+}
+.top p span{
+    color: gray;
+}
