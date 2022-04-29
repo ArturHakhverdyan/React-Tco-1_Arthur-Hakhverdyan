@@ -16,7 +16,7 @@
     width: 200px;
     margin: 5%;
     padding: 2%;
-    background-color: azure;
+    background-color: rgb(238, 81, 81);
     
 }
 .card_wrapper{
@@ -28,8 +28,11 @@
     display: flex;
     justify-content: center;
     margin-top: 100px;
-    color: rgb(18, 214, 18);
+    color: rgb(204, 30, 96);
+}
+.card p span {
+    color: rgb(214, 67, 99);
 }
 *{
-    background-color:aqua
+    background-color:rgb(250, 249, 249)
 }

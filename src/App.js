@@ -1,10 +1,11 @@
-import { CardWrapper } from "./CardWrapper";
+import { FacebookCard } from "./FacebookFriendsCard";
+
 
 
 function App() {
   return (
     <div className="App" >
-      <CardWrapper/>
+      <FacebookCard />
     </div>
   );
 }
