@@ -1,9 +1,10 @@
-import { FacebookList } from "./FacebookList";
+import { CardWrapper } from "./CardWrapper";
+
 
 function App() {
   return (
     <div className="App" >
-       <FacebookList />
+      <CardWrapper/>
     </div>
   );
 }

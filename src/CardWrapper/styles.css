@@ -1,0 +1,35 @@
+
+.card img{
+    width: 200px;
+    height: 150px;
+    border-radius: 20px;
+    
+}
+.card p{
+    background-color: azure;
+    font-style: italic;
+}
+.card{
+    border-image: auto;
+    border: 1px solid black;
+    border-radius: 20px;
+    width: 200px;
+    margin: 5%;
+    padding: 2%;
+    background-color: azure;
+    
+}
+.card_wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 5%;
+}
+.text{
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    color: rgb(18, 214, 18);
+}
+*{
+    background-color:aqua
+}
