@@ -1,8 +1,9 @@
+import { MirrorInput } from "./mirrorInput";
 
 function App() {
   return (
-    <div className="App" id="barev">
-     
+    <div className="App">
+      <MirrorInput />
     </div>
   );
 }
