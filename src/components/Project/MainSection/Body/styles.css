@@ -1,44 +1,9 @@
 .main-section-body {
   width: 100%;
-  background-color: rgb(59, 131, 190);
-}
-
-
-.card_wrapper {
+  height: calc(100% - 200px);
   display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
   flex-wrap: wrap;
-  width: 100%;
-}
-
-.card-column {
-  float: left;
-  width: 33.3%;
-  padding: 0 10px;
-}
-
-.card-column:not(:last-child) {
-  margin-bottom: 10px;
-}
-
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  padding: 16px;
-  text-align: center;
-  background-color: rgb(110, 173, 231);
-  border-radius: 25px;
-
-}
-
-.card img {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-}
-.card-button{
-  background-color: transparent;
-  border: 0px;
-  cursor: pointer;
-  font-size: 30px;
-  margin-right: -80%;
-  max-width: 30px;
+  padding-top: 42px;
 }
