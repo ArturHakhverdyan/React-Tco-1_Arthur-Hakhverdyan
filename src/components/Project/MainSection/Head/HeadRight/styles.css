@@ -1,0 +1,22 @@
+.head-right{
+  display: flex;
+  width: 800px;
+  justify-content: flex-end;
+  height: 100%;
+  align-items: center;
+}
+.head-right-tools{
+    max-width: 200px;
+    margin-left: 100px;
+    display: grid;
+    grid-gap: 10px;
+    margin-right: 37px;
+}
+.modal-button {
+    width: 400px;
+    height: 200px;
+    border: 5px solid rgb(24, 130, 201);
+    border-radius: 25px;
+    text-align: center;
+    color: aqua;
+}
