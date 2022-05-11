@@ -1,6 +1,7 @@
 import './styles.css'
 import { Input, Button } from "reactstrap"
 import { useState } from 'react'
+import { SharedModal } from '../../../../../shared/sharedModal'
 
 
 const SortSelect = () => {
@@ -19,39 +20,34 @@ const SearchInput = () => {
         <Input type="serach" name="search" placeholder="search" />
     )
 }
- export const ModalButton = () => {
-    return (
-        <div className='modal-button' > 
-            <h1>
-                Modal functionality
-            </h1>
-        </div>
-    )
-}
+
 
 
 
 export const HeadRight = () => {
-    const [modal,setModal] = useState(false)
+    const [isShowAddTaskModal, setIsShowAddTaskModal] = useState(false);
+    const handleBtnClick = () => {
+        if(isShowAddTaskModal) {
+            setIsShowAddTaskModal(false)
+        } else {
+            setIsShowAddTaskModal(true)
+        }
+    }
     return (
         <div className="head-right">
-             <div>
-                {modal && <ModalButton />}
-            </div>
-            <div className='head-right-tools'>
-            <Button 
-                style={{width:'100%'}}
+            <Button
+                style={{ width: '100%' }}
                 color="info"
                 outline
-                onClick={() => {
-                    setModal(!modal)
-                }}
+                onClick={handleBtnClick}
             >
                 info
             </Button>
             <SortSelect />
             <SearchInput />
-            </div>
+            {isShowAddTaskModal && (<SharedModal  onClose = {() => {
+                setIsShowAddTaskModal(false)
+            }}/>)}
         </div>
     )
 }
