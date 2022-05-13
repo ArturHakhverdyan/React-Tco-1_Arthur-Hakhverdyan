@@ -24,7 +24,7 @@ const SearchInput = () => {
 
 
 
-export const HeadRight = () => {
+export const HeadRight = ({setTasks}) => {
     const [isShowAddTaskModal, setIsShowAddTaskModal] = useState(false);
     const handleBtnClick = () => {
         if(isShowAddTaskModal) {
@@ -47,7 +47,8 @@ export const HeadRight = () => {
             <SearchInput />
             {isShowAddTaskModal && (<SharedModal  onClose = {() => {
                 setIsShowAddTaskModal(false)
-            }}/>)}
+            }} 
+            setTasks = {setTasks}/>)}
         </div>
     )
 }

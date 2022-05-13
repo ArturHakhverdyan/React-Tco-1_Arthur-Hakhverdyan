@@ -1,7 +1,37 @@
 import './styles.css'
 import { Card, CardBody, CardImg, CardText, CardTitle, Button } from "reactstrap"
+import { useState } from 'react';
 
-export const CardComponent = ({ todo: { status, todo_at, description, title } }) => {
+export const CardComponent = ({ todo: { status, todo_at, description, title, _id }, setTasks, tasks }) => {
+
+  const [taskStatus, setTaskStatus] = useState(status);
+
+  const taskStatusChangeHendler = () => {
+    fetch(`http://localhost:3001/task/${_id}`, {
+      headers: { "Content-Type": "application/json" },
+      method: "PUT",
+      body: JSON.stringify({
+        status: "done",
+      }),
+    })
+      .then((res) => res.json())
+      .then((task) => {
+        setTaskStatus(task.status);
+      });
+  }
+
+  const deleteCardHendler = () => {
+    fetch(`http://localhost:3001/task/${_id}`, {
+      method: "DELETE",
+    })
+      .then(res => {
+
+        setTasks(tasks.filter(task => {
+          return task._id !== _id
+        }))
+      })
+
+  }
   return (
     <div className="div-card">
       <Card>
@@ -18,8 +48,15 @@ export const CardComponent = ({ todo: { status, todo_at, description, title } })
           <CardText>
             {description}
           </CardText>
-          <Button>
-            Done
+          <Button
+            color={taskStatus === "done" ? "danger" : "success"}
+            title="Click to make Done"
+
+            onClick={taskStatusChangeHendler}>
+            {taskStatus}
+          </Button>
+          <Button style={{ marginLeft: "20px" }} onClick={deleteCardHendler}>
+            Delete
           </Button>
         </CardBody>
       </Card>
