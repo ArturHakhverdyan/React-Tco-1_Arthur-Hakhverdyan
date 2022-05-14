@@ -24,11 +24,12 @@ export const CardComponent = ({ todo: { status, todo_at, description, title, _id
     fetch(`http://localhost:3001/task/${_id}`, {
       method: "DELETE",
     })
-      .then(res => {
-
-        setTasks(tasks.filter(task => {
-          return task._id !== _id
-        }))
+      .then(() => {
+        setTasks(prev=>{
+         return prev.filter(task => {
+            return task._id !== _id
+          })
+        })
       })
 
   }
