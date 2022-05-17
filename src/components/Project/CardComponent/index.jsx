@@ -1,38 +1,15 @@
 import './styles.css'
 import { Card, CardBody, CardImg, CardText, CardTitle, Button } from "reactstrap"
-import { useState } from 'react';
+import { memo } from 'react';
 
-export const CardComponent = ({ todo: { status, todo_at, description, title, _id }, setTasks, tasks }) => {
 
-  const [taskStatus, setTaskStatus] = useState(status);
+export const CardComponent = memo(({ todo: { status, todo_at, description, title, _id },
+   taskStatusChangeHendler,
+   deleteCardHendler
+   }) => {
+    const nextStatus = status === 'active' ?'done':'active'
+    console.log("ReRender");
 
-  const taskStatusChangeHendler = () => {
-    fetch(`http://localhost:3001/task/${_id}`, {
-      headers: { "Content-Type": "application/json" },
-      method: "PUT",
-      body: JSON.stringify({
-        status: "done",
-      }),
-    })
-      .then((res) => res.json())
-      .then((task) => {
-        setTaskStatus(task.status);
-      });
-  }
-
-  const deleteCardHendler = () => {
-    fetch(`http://localhost:3001/task/${_id}`, {
-      method: "DELETE",
-    })
-      .then(() => {
-        setTasks(prev=>{
-         return prev.filter(task => {
-            return task._id !== _id
-          })
-        })
-      })
-
-  }
   return (
     <div className="div-card">
       <Card>
@@ -50,17 +27,17 @@ export const CardComponent = ({ todo: { status, todo_at, description, title, _id
             {description}
           </CardText>
           <Button
-            color={taskStatus === "done" ? "danger" : "success"}
+            color={status === "done" ? "danger" : "success"}
             title="Click to make Done"
 
-            onClick={taskStatusChangeHendler}>
-            {taskStatus}
+            onClick={()=>taskStatusChangeHendler(_id ,nextStatus )}>
+            {status}
           </Button>
-          <Button style={{ marginLeft: "20px" }} onClick={deleteCardHendler}>
+          <Button style={{ marginLeft: "20px" }} onClick={()=>deleteCardHendler(_id )}>
             Delete
           </Button>
         </CardBody>
       </Card>
     </div>
   )
-}
+})
