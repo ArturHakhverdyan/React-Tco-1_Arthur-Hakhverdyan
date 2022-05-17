@@ -1,11 +1,15 @@
 import './styles.css'
 import { Card, CardBody, CardImg, CardText, CardTitle, Button } from "reactstrap"
 import { memo } from 'react';
+import { EditModal } from '../../../shared/editModal';
 
 
 export const CardComponent = memo(({ todo: { status, todo_at, description, title, _id },
    taskStatusChangeHendler,
-   deleteCardHendler
+   deleteCardHendler,
+   onClick,
+   showEditModal,
+   setShowEditModal
    }) => {
     const nextStatus = status === 'active' ?'done':'active'
     console.log("ReRender");
@@ -36,6 +40,13 @@ export const CardComponent = memo(({ todo: { status, todo_at, description, title
           <Button style={{ marginLeft: "20px" }} onClick={()=>deleteCardHendler(_id )}>
             Delete
           </Button>
+          <Button style={{marginLeft: '20px'}} onClick = {onClick}  >
+            Edit
+          </Button>
+           {showEditModal && <EditModal onclose = {() => {
+             setShowEditModal(false)
+           }} /> } 
+        
         </CardBody>
       </Card>
     </div>

@@ -49,6 +49,7 @@ export const HeadRight = ({setTasks}) => {
                 setIsShowAddTaskModal(false)
             }} 
             setTasks = {setTasks}/>)}
+            
         </div>
     )
 }
