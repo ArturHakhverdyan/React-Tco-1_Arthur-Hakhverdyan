@@ -1,6 +1,6 @@
 import './styles.css'
 import { Card, CardBody, CardImg, CardText, CardTitle, Button } from "reactstrap"
-import { memo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { EditModal } from '../../../shared/editModal';
 
 
@@ -14,7 +14,7 @@ export const CardComponent = memo(({ todo,
   const [showEditModal, setShowEditModal] = useState(false);
   const [editableState, setEditableState] = useState(null)
 
-  const editOpenHandler = () => {
+  const editOpenHandler = useCallback(() => {
     if (showEditModal) {
       setShowEditModal(false)
     }
@@ -22,8 +22,7 @@ export const CardComponent = memo(({ todo,
       setShowEditModal(true)
     }
     setEditableState(todo)
-
-  }
+  },[showEditModal])
 
   return (
     <div className="div-card">

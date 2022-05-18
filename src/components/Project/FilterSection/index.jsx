@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
 import './styles.css'
 
@@ -10,8 +9,6 @@ const Example = () => {
     <DatePicker selected={startDate} onChange={(date: Date) => setStartDate(date)} />
   );
 };
-
-
 export const FilterSection = () => {
   return <div className="filter-section">
     <div className="filter-section-status">
@@ -21,22 +18,20 @@ export const FilterSection = () => {
     </div>
     <div className="filter-section-date">
       <p>create_lte</p>
-   <Example />
-   </div>
-   <div className="filter-section-date">
+      <Example />
+    </div>
+    <div className="filter-section-date">
       <p>create_gte</p>
-   <Example />
-   </div>
-   <div className="filter-section-date">
+      <Example />
+    </div>
+    <div className="filter-section-date">
       <p>complete_lte</p>
-   <Example />
-   </div>
-   <div className="filter-section-date">
+      <Example />
+    </div>
+    <div className="filter-section-date">
       <p>complete_gte</p>
-   <Example />
-   </div>
-   
- 
+      <Example />
+    </div>
   </div>;
 };
 
