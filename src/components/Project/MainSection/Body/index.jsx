@@ -1,21 +1,10 @@
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { CardComponent } from "../../CardComponent";
 import "./styles.css";
 
 
 export const Body = ({ tasks , setTasks }) => {
- const [showEditModal , setShowEditModal] = useState(false)
-  const editOpenHandler = () =>{
-    if(showEditModal) {
-      setShowEditModal(false)
-
-    }
-    else {
-      setShowEditModal(true)
-    }
-  }
-
   const taskStatusChangeHendler =useCallback( (_id ,status) => {
     fetch(`http://localhost:3001/task/${_id}`, {
       headers: { "Content-Type": "application/json" },
@@ -35,7 +24,7 @@ export const Body = ({ tasks , setTasks }) => {
           })
         })
       });
-  },[])
+  },[setTasks])
 
   const deleteCardHendler =useCallback( (_id) => {
     fetch(`http://localhost:3001/task/${_id}`, {
@@ -49,7 +38,7 @@ export const Body = ({ tasks , setTasks }) => {
         })
       })
 
-  },[])
+  },[setTasks])
 
   return (
     <div className="main-section-body">
@@ -59,9 +48,7 @@ export const Body = ({ tasks , setTasks }) => {
          todo={todo}
          taskStatusChangeHendler={taskStatusChangeHendler}
          deleteCardHendler={deleteCardHendler}
-         onClick= {editOpenHandler}
-         showEditModal={showEditModal}
-         setShowEditModal = {setShowEditModal}
+         setTasks = {setTasks}
          
           />;
       })}

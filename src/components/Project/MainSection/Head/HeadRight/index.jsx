@@ -41,7 +41,7 @@ export const HeadRight = ({setTasks}) => {
                 outline
                 onClick={handleBtnClick}
             >
-                info
+                Add Task
             </Button>
             <SortSelect />
             <SearchInput />

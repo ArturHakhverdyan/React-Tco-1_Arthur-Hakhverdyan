@@ -1,18 +1,29 @@
 import './styles.css'
 import { Card, CardBody, CardImg, CardText, CardTitle, Button } from "reactstrap"
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { EditModal } from '../../../shared/editModal';
 
 
-export const CardComponent = memo(({ todo: { status, todo_at, description, title, _id },
-   taskStatusChangeHendler,
-   deleteCardHendler,
-   onClick,
-   showEditModal,
-   setShowEditModal
-   }) => {
-    const nextStatus = status === 'active' ?'done':'active'
-    console.log("ReRender");
+export const CardComponent = memo(({ todo,
+  taskStatusChangeHendler,
+  deleteCardHendler,
+  setTasks
+}) => {
+  const { status, todo_at, description, title, _id } = todo
+  const nextStatus = status === 'active' ? 'done' : 'active'
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editableState, setEditableState] = useState(null)
+
+  const editOpenHandler = () => {
+    if (showEditModal) {
+      setShowEditModal(false)
+    }
+    else {
+      setShowEditModal(true)
+    }
+    setEditableState(todo)
+
+  }
 
   return (
     <div className="div-card">
@@ -34,19 +45,24 @@ export const CardComponent = memo(({ todo: { status, todo_at, description, title
             color={status === "done" ? "danger" : "success"}
             title="Click to make Done"
 
-            onClick={()=>taskStatusChangeHendler(_id ,nextStatus )}>
+            onClick={() => taskStatusChangeHendler(_id, nextStatus)}>
             {status}
           </Button>
-          <Button style={{ marginLeft: "20px" }} onClick={()=>deleteCardHendler(_id )}>
+          <Button color='danger' style={{ marginLeft: "20px" }} onClick={() => deleteCardHendler(_id)}>
             Delete
           </Button>
-          <Button style={{marginLeft: '20px'}} onClick = {onClick}  >
+          <Button color='warning' style={{ marginLeft: '20px' }} onClick={editOpenHandler}  >
             Edit
           </Button>
-           {showEditModal && <EditModal onclose = {() => {
-             setShowEditModal(false)
-           }} /> } 
-        
+          {showEditModal && (<EditModal
+          editableState={editableState}
+          onclose={() => {
+            setShowEditModal(false)
+            setEditableState(null)
+          }}
+            setTasks={setTasks}
+          />)}
+
         </CardBody>
       </Card>
     </div>
