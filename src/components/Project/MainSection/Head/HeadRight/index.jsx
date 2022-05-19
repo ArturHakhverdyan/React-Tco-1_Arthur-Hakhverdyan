@@ -2,6 +2,7 @@ import './styles.css'
 import { Input, Button } from "reactstrap"
 import { useState } from 'react'
 import { SharedModal } from '../../../../../shared/sharedModal'
+import { BACKEND_URL } from '../../../../../consts'
 
 
 const SortSelect = () => {
@@ -12,12 +13,6 @@ const SortSelect = () => {
             <option>Oldest First</option>
             <option>Todo at Newest</option>
         </Input>
-    )
-}
-
-const SearchInput = () => {
-    return (
-        <Input type="serach" name="search" placeholder="search" />
     )
 }
 
@@ -33,6 +28,13 @@ export const HeadRight = ({setTasks}) => {
             setIsShowAddTaskModal(true)
         }
     }
+    const searchTask = (e) => {
+        fetch(`${BACKEND_URL}/task?search=${e.target.value}`)
+        .then((res) => res.json())
+        .then(data => setTasks(data) )
+    }
+    
+    
     return (
         <div className="head-right">
             <Button
@@ -44,7 +46,7 @@ export const HeadRight = ({setTasks}) => {
                 Add Task
             </Button>
             <SortSelect />
-            <SearchInput />
+            <Input type="serach" name="search" placeholder="search" onChange={searchTask}/>
             {isShowAddTaskModal && (<SharedModal  onClose = {() => {
                 setIsShowAddTaskModal(false)
             }} 

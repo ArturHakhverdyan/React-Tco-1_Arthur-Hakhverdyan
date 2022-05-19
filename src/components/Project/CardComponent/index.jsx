@@ -41,7 +41,7 @@ export const CardComponent = memo(({ todo,
             {description}
           </CardText>
           <Button
-            color={status === "done" ? "danger" : "success"}
+            color={status === "done" ? "info" : "success"}
             title="Click to make Done"
 
             onClick={() => taskStatusChangeHendler(_id, nextStatus)}>
