@@ -1,15 +1,13 @@
-export const isRequired = (value) => {
-    value.length ? undefined : 'The field is required';
-}
-
-const minLength = (length) => (value) => {
-    return value.length >= length ? undefined : `The min length must be ${length}`
-};
-
-export const minLength3 = minLength(3);
-
-const maxLength = (length) => (value) => {
-    return value.length <= length ? undefined : `The max length must be ${length}`
-}
-
-export const maxLength20 = maxLength(20)
+export const IsRequired = (value) => {
+    return value.length ? undefined : "The field must be is required "
+    }
+     
+   const MinLength = (length) => (value) => {
+       return value.length >= length ? undefined : ` Min length must be ${length}`
+   }
+   export  const MinLength3 = MinLength(3);
+   
+   const MaxLength = (length) => (value) => {
+       return value.length <= length ? undefined:` Max length must be ${length}`
+   }
+   export const MaxLength20 = MaxLength(20)

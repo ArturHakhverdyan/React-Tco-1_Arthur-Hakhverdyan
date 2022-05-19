@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Button, Form, FormFeedback, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap"
-import { isRequired, maxLength20, minLength3 } from "../../helpers/validations"
+import { IsRequired, MinLength3, MaxLength20 } from "../../helpers/validations"
 
 const AddTaskForm = () => {
 
@@ -8,12 +8,12 @@ const AddTaskForm = () => {
         title: {
             value: '',
             error: undefined,
-            validations: [isRequired, minLength3, maxLength20]
+            validations: [IsRequired, MinLength3, MaxLength20]
         },
         description: {
             value: '',
             error: undefined,
-            validations: [isRequired, minLength3, maxLength20]
+            validations: [IsRequired, MinLength3, MaxLength20]
         }
     })
 
