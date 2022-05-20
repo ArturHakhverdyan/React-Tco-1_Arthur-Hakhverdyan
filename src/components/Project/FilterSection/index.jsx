@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Button } from "reactstrap";
+import { BACKEND_URL } from "../../../consts";
 import './styles.css'
 
 const Example = () => {
@@ -9,12 +11,24 @@ const Example = () => {
     <DatePicker selected={startDate} onChange={(date: Date) => setStartDate(date)} />
   );
 };
-export const FilterSection = () => {
+export const FilterSection = ({tasks,setTasks}) => {
+  const showDoneStatus = () => {
+    fetch(`${BACKEND_URL}/task?status=done`)
+    .then(res => res.json())
+    .then(data => setTasks(data))
+  }
+
+  const showActiveStatus = () => {
+    fetch(`${BACKEND_URL}/task?status=active`)
+    .then(res => res.json())
+    .then(data => setTasks(data))
+  }
+
   return <div className="filter-section">
     <div className="filter-section-status">
       <p className="filter-section-status-p">Status</p>
-      <button className="filter-section-status-btn">done</button>
-      <button className="filter-section-status-btn">active</button>
+      <Button color='info' onClick = {showDoneStatus} style = {{marginRight:'20px',border:'1px solid black',borderRadius:'25px',width:'100px'}}>Done</Button>
+      <Button color='info' onClick={showActiveStatus} style = {{border:'1px solid black',borderRadius:'25px',width:'100px'}}>Active</Button>
     </div>
     <div className="filter-section-date">
       <p>create_lte</p>

@@ -5,16 +5,7 @@ import { SharedModal } from '../../../../../shared/sharedModal'
 import { BACKEND_URL } from '../../../../../consts'
 
 
-const SortSelect = () => {
-    return (
-        <Input name="sort_by" type="select">
-            <option>Sort By</option>
-            <option>Newest First</option>
-            <option>Oldest First</option>
-            <option>Todo at Newest</option>
-        </Input>
-    )
-}
+
 
 
 
@@ -28,6 +19,27 @@ export const HeadRight = ({setTasks}) => {
             setIsShowAddTaskModal(true)
         }
     }
+
+    const SortSelect = ({onChange}) => {
+        return (
+            <Input name="sort_by" type="select" onChange={onChange}>
+                <option >Sort By</option>
+                <option value={'creation_date_newest'}>Created Newest</option>
+                <option value={'creation_date_oldest'}>Created Oldest</option>
+                <option value={'completion_date_newest'}>Completed Newest</option>
+                <option value={'completion_date_oldest'}>Completed Oldest</option>
+                <option value={'a-z'}>A-Z</option>
+                <option value={'z-a'}>Z-A</option>
+            </Input>
+        )
+    }
+
+    const sortTask = (e) => {
+        fetch(`${BACKEND_URL}/task/?sort=${e.target.value}`)
+        .then(res => res.json())
+        .then(data => setTasks(data))
+    }
+
     const searchTask = (e) => {
         fetch(`${BACKEND_URL}/task?search=${e.target.value}`)
         .then((res) => res.json())
@@ -45,7 +57,7 @@ export const HeadRight = ({setTasks}) => {
             >
                 Add Task
             </Button>
-            <SortSelect />
+            <SortSelect onChange = {sortTask}/>
             <Input type="serach" name="search" placeholder="search" onChange={searchTask}/>
             {isShowAddTaskModal && (<SharedModal  onClose = {() => {
                 setIsShowAddTaskModal(false)
