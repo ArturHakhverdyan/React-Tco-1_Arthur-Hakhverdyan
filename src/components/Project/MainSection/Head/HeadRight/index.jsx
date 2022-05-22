@@ -12,6 +12,8 @@ import { BACKEND_URL } from '../../../../../consts'
 
 export const HeadRight = ({setTasks}) => {
     const [isShowAddTaskModal, setIsShowAddTaskModal] = useState(false);
+    const [sortTaskFilter,setSortTaskFilter] = useState(null)
+    const [searchTaskFilter,setSearchTaskFilter] = useState(null)
     const handleBtnClick = () => {
         if(isShowAddTaskModal) {
             setIsShowAddTaskModal(false)
@@ -33,19 +35,37 @@ export const HeadRight = ({setTasks}) => {
             </Input>
         )
     }
+    // fetch(`${BACKEND_URL}/task/?sort=${e.target.value}`)
+    // .then(res => res.json())
+    // .then(data => setTasks(data))
 
     const sortTask = (e) => {
-        fetch(`${BACKEND_URL}/task/?sort=${e.target.value}`)
-        .then(res => res.json())
-        .then(data => setTasks(data))
+      const {value} = e.target
+      setSortTaskFilter(value)
     }
 
     const searchTask = (e) => {
-        fetch(`${BACKEND_URL}/task?search=${e.target.value}`)
-        .then((res) => res.json())
-        .then(data => setTasks(data) )
+      const {value} = e.target
+      setSearchTaskFilter(value)
     }
+        
     
+    if(sortTaskFilter && searchTaskFilter) {
+         fetch(`${BACKEND_URL}/task/?sort&search=${sortTaskFilter,searchTaskFilter}`)
+        .then(res => res.json())
+        .then(data => setTasks(data))
+    } else if(sortTaskFilter){
+        fetch(`${BACKEND_URL}/task/?sort=${sortTaskFilter}`)
+    .then(res => res.json())
+    .then(data => setTasks(data))
+
+    }else if (searchTaskFilter){
+        fetch(`${BACKEND_URL}/task/?search=${searchTaskFilter}`)
+    .then(res => res.json())
+    .then(data => setTasks(data))
+    }
+
+
     
     return (
         <div className="head-right">
