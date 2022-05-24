@@ -4,69 +4,57 @@ import { useState } from 'react'
 import { SharedModal } from '../../../../../shared/sharedModal'
 import { BACKEND_URL } from '../../../../../consts'
 
+  const SortSelect = ({ onChange }) => {
+        return (
+            <Input name="sort_by" type="select" onChange={onChange}>
+                <option >Sort By</option>
+                <option value='creation_date_newest'>Created Newest</option>
+                <option value='creation_date_oldest'>Created Oldest</option>
+                <option value='completion_date_newest'>Completed Newest</option>
+                <option value='completion_date_oldest'>Completed Oldest</option>
+                <option value='a-z'>A-Z</option>
+                <option value='z-a'>Z-A</option>
+            </Input>
+        )
+    }
 
-
-
-
-
-
-export const HeadRight = ({setTasks}) => {
+export const HeadRight = ({ setTasks }) => {
     const [isShowAddTaskModal, setIsShowAddTaskModal] = useState(false);
-    const [sortTaskFilter,setSortTaskFilter] = useState(null)
-    const [searchTaskFilter,setSearchTaskFilter] = useState(null)
+    const [sortTaskFilter, setSortTaskFilter] = useState()
+    const [searchTaskFilter, setSearchTaskFilter] = useState()
     const handleBtnClick = () => {
-        if(isShowAddTaskModal) {
+        if (isShowAddTaskModal) {
             setIsShowAddTaskModal(false)
         } else {
             setIsShowAddTaskModal(true)
         }
     }
 
-    const SortSelect = ({onChange}) => {
-        return (
-            <Input name="sort_by" type="select" onChange={onChange}>
-                <option >Sort By</option>
-                <option value={'creation_date_newest'}>Created Newest</option>
-                <option value={'creation_date_oldest'}>Created Oldest</option>
-                <option value={'completion_date_newest'}>Completed Newest</option>
-                <option value={'completion_date_oldest'}>Completed Oldest</option>
-                <option value={'a-z'}>A-Z</option>
-                <option value={'z-a'}>Z-A</option>
-            </Input>
-        )
-    }
-    // fetch(`${BACKEND_URL}/task/?sort=${e.target.value}`)
-    // .then(res => res.json())
-    // .then(data => setTasks(data))
-
     const sortTask = (e) => {
-      const {value} = e.target
-      setSortTaskFilter(value)
+        const { value } = e.target
+        setSortTaskFilter(value)
     }
 
     const searchTask = (e) => {
-      const {value} = e.target
-      setSearchTaskFilter(value)
+        const { value } = e.target
+        setSearchTaskFilter(value)
     }
-        
-    
-    if(sortTaskFilter && searchTaskFilter) {
-         fetch(`${BACKEND_URL}/task/?sort&search=${sortTaskFilter,searchTaskFilter}`)
-        .then(res => res.json())
-        .then(data => setTasks(data))
-    } else if(sortTaskFilter){
+
+    if (sortTaskFilter && searchTaskFilter) {
+        fetch(`${BACKEND_URL}/task/?sort&search=${sortTaskFilter, searchTaskFilter}`)
+            .then(res => res.json())
+            .then(data => setTasks(data))
+    } else if (sortTaskFilter) {
         fetch(`${BACKEND_URL}/task/?sort=${sortTaskFilter}`)
-    .then(res => res.json())
-    .then(data => setTasks(data))
+            .then(res => res.json())
+            .then(data => setTasks(data))
 
-    }else if (searchTaskFilter){
+    } else if (searchTaskFilter) {
         fetch(`${BACKEND_URL}/task/?search=${searchTaskFilter}`)
-    .then(res => res.json())
-    .then(data => setTasks(data))
+            .then(res => res.json())
+            .then(data => setTasks(data))
     }
 
-
-    
     return (
         <div className="head-right">
             <Button
@@ -77,13 +65,12 @@ export const HeadRight = ({setTasks}) => {
             >
                 Add Task
             </Button>
-            <SortSelect onChange = {sortTask}/>
-            <Input type="serach" name="search" placeholder="search" onChange={searchTask}/>
-            {isShowAddTaskModal && (<SharedModal  onClose = {() => {
+            <SortSelect onChange={sortTask} />
+            <Input type="serach" name="search" placeholder="search" onChange={searchTask} />
+            {isShowAddTaskModal && (<SharedModal onClose={() => {
                 setIsShowAddTaskModal(false)
-            }} 
-            setTasks = {setTasks}/>)}
-            
+            }}
+                setTasks={setTasks} />)}
         </div>
     )
 }
