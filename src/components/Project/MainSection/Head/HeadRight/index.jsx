@@ -1,6 +1,6 @@
 import './styles.css'
 import { Input, Button } from "reactstrap"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SharedModal } from '../../../../../shared/sharedModal'
 import { BACKEND_URL } from '../../../../../consts'
 
@@ -8,12 +8,12 @@ import { BACKEND_URL } from '../../../../../consts'
         return (
             <Input name="sort_by" type="select" onChange={onChange}>
                 <option >Sort By</option>
-                <option value='creation_date_newest'>Created Newest</option>
-                <option value='creation_date_oldest'>Created Oldest</option>
-                <option value='completion_date_newest'>Completed Newest</option>
-                <option value='completion_date_oldest'>Completed Oldest</option>
-                <option value='a-z'>A-Z</option>
-                <option value='z-a'>Z-A</option>
+                <option value={'creation_date_newest'}>Created Newest</option>
+                <option value={'creation_date_oldest'}>Created Oldest</option>
+                <option value={'completion_date_newest'}>Completed Newest</option>
+                <option value={'completion_date_oldest'}>Completed Oldest</option>
+                <option value={'a-z'}>A-Z</option>
+                <option value={'z-a'}>Z-A</option>
             </Input>
         )
     }
@@ -39,21 +39,24 @@ export const HeadRight = ({ setTasks }) => {
         const { value } = e.target
         setSearchTaskFilter(value)
     }
+    useEffect(()=> {
+        if (sortTaskFilter && searchTaskFilter) {
+            fetch(`${BACKEND_URL}/task/?sort=${sortTaskFilter}&search=${searchTaskFilter} `)
+                .then(res => res.json())
+                .then(data => setTasks(data))
+        } else if (sortTaskFilter) {
+            fetch(`${BACKEND_URL}/task/?sort=${sortTaskFilter}`)
+                .then(res => res.json())
+                .then(data => setTasks(data))
+    
+        } else if (searchTaskFilter) {
+            fetch(`${BACKEND_URL}/task/?search=${searchTaskFilter}`)
+                .then(res => res.json())
+                .then(data => setTasks(data))
+        }
+    },[sortTaskFilter,searchTaskFilter])
 
-    if (sortTaskFilter && searchTaskFilter) {
-        fetch(`${BACKEND_URL}/task/?sort&search=${sortTaskFilter, searchTaskFilter}`)
-            .then(res => res.json())
-            .then(data => setTasks(data))
-    } else if (sortTaskFilter) {
-        fetch(`${BACKEND_URL}/task/?sort=${sortTaskFilter}`)
-            .then(res => res.json())
-            .then(data => setTasks(data))
-
-    } else if (searchTaskFilter) {
-        fetch(`${BACKEND_URL}/task/?search=${searchTaskFilter}`)
-            .then(res => res.json())
-            .then(data => setTasks(data))
-    }
+    
 
     return (
         <div className="head-right">
