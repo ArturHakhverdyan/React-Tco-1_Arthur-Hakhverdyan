@@ -1,12 +1,12 @@
 import { Body } from "./Body";
 import { Head } from "./Head";
 import "./styles.css";
-export const MainSection = ({tasks,setTasks}) => {
- 
+export const MainSection = ({ tasks, setTasks, setFilterField }) => {
+
   return (
     <div className="main-section">
-      <Head setTasks = {setTasks}/>
-      <Body tasks = {tasks} setTasks = {setTasks}/>
+      <Head setTasks={setTasks} setFilterField = {setFilterField}/>
+      <Body tasks={tasks} setTasks={setTasks} />
     </div>
   );
 };
