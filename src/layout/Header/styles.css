@@ -7,3 +7,11 @@
   align-items: center;
   justify-content: flex-end;
 }
+.layout-header a {
+  color: bisque;
+  margin: 30px;
+  font-size: 25px;
+}
+.layout-header nav ul {
+  display: flex;
+}
