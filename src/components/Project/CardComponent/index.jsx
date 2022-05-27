@@ -2,6 +2,7 @@ import './styles.css'
 import { Card, CardBody, CardImg, CardText, CardTitle, Button } from "reactstrap"
 import { memo,  useState } from 'react';
 import { EditModal } from '../../../shared/editModal';
+import { Link } from 'react-router-dom';
 
 
 export const CardComponent = memo(({ todo,
@@ -34,11 +35,11 @@ export const CardComponent = memo(({ todo,
           width="100%"
         />
         <CardBody>
-          <CardTitle tag="h5">
-            {title}
-          </CardTitle>
+        <Link to={`/project/${_id}`}>
+          <CardTitle tag="h5">{title}</CardTitle>
+        </Link>
           <CardText>
-            {description}
+            {description.substring(0,10)}
           </CardText>
           <Button
             color={status === "done" ? "info" : "success"}

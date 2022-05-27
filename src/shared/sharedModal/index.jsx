@@ -1,7 +1,9 @@
 import { useState } from "react"
 import { Button, Form, FormFeedback, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap"
+import { DatePick } from "../../components/DatePick"
 import { BACKEND_URL } from "../../consts"
-import { IsRequired, MinLength3, MaxLength20 } from "../../helpers/validations"
+import { IsRequired, MinLength3, MaxLength20, MaxLength500 } from "../../helpers/validations"
+import * as moment from "moment";
 
 const AddTaskForm = ({ onSubmitCallback, setTasks }) => {
 
@@ -14,9 +16,12 @@ const AddTaskForm = ({ onSubmitCallback, setTasks }) => {
         description: {
             value: '',
             error: undefined,
-            validations: [IsRequired, MinLength3, MaxLength20]
+            validations: [IsRequired, MinLength3, MaxLength500]
         }
     })
+
+    const [startDate, setStartDate] = useState(new Date());
+
 
 
     const onSubmit = (e) => {
@@ -24,13 +29,14 @@ const AddTaskForm = ({ onSubmitCallback, setTasks }) => {
         const { title: { value: title }, description: { value: description } } = inputsData
         const formData = {
             title,
-            description
+            description,
+            date: moment(startDate).format('YYYY-MM-DD')
         }
         fetch(`${BACKEND_URL}/task`,{
             method:"POST",
             headers: {"Content-type" : "application/json"},
             body: JSON.stringify(formData)
-        })
+        })  
         .then((response) => response.json())
         .then((data) => {
             setTasks((prev) => {
@@ -103,10 +109,13 @@ const AddTaskForm = ({ onSubmitCallback, setTasks }) => {
                 )}
 
             </FormGroup>
+            <FormGroup>
+                <DatePick startDate = {startDate} setStartDate = {setStartDate}/>
+            </FormGroup>
             <Button color="primary" onClick={onSubmit}>
                 Add Task
             </Button>
-            {/* <Button color="primary">Clear</Button> */}
+            
         </Form>
     )
 }

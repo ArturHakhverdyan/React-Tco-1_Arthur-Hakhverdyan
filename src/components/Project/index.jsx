@@ -9,6 +9,12 @@ import "./styles.css";
 export const Project = () => {
   const [tasks, setTasks] = useState([])
   const [queryObject, setQueryObject] = useState({})
+  const [createLte , setCreateLte] = useState(new Date())
+  const [createGte , setCreateGte] = useState(new Date())
+  const [completedLte , setCompletedLte] = useState(new Date())
+  const [completedGte , setSompletedGte] = useState(new Date())
+
+
 
 
   useEffect(() => {
@@ -36,7 +42,19 @@ export const Project = () => {
   }, [])
   return (
     <div className="project-layout">
-      <FilterSection tasks={tasks} setTasks={setTasks} />
+      <FilterSection 
+      tasks={tasks}
+      setTasks={setTasks} 
+      createLte = {createLte}
+      setCreateLte = {setCreateLte}
+      createGte = {createGte}
+      setCreateGte = {setCreateGte}
+      completedLte = {completedLte}
+      setCompletedLte = {setCompletedLte}
+      completedGte = {completedGte}
+      setSompletedGte = {setSompletedGte}
+
+       />
       <MainSection tasks={tasks} setTasks={setTasks} setFilterField={setFilterField} />
     </div>
   );

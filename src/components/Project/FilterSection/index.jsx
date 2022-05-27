@@ -1,17 +1,11 @@
-import React, { useState } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button } from "reactstrap";
 import { BACKEND_URL } from "../../../consts";
+import { DatePickCompletedGte, DatePickCompletedLte, DatePickCreateGte, DatePickCreateLte } from "../../DatePick";
 import './styles.css'
 
-const Example = () => {
-  const [startDate, setStartDate] = useState(new Date());
-  return (
-    <DatePicker selected={startDate} onChange={(date: Date) => setStartDate(date)} />
-  );
-};
-export const FilterSection = ({tasks,setTasks}) => {
+
+export const FilterSection = ({tasks,setTasks,createLte,setCreateLte,createGte,setCreateGte,completedLte,setCompletedLte,completedGte,setCompletedGte}) => {
   const showDoneStatus = () => {
     fetch(`${BACKEND_URL}/task?status=done`)
     .then(res => res.json())
@@ -32,19 +26,19 @@ export const FilterSection = ({tasks,setTasks}) => {
     </div>
     <div className="filter-section-date">
       <p>create_lte</p>
-      <Example />
+      <DatePickCreateLte createLte = {createLte} setCreateLte = {setCreateLte}/>
     </div>
     <div className="filter-section-date">
       <p>create_gte</p>
-      <Example />
+      <DatePickCreateGte createGte = {createGte} setCreateGte = {setCreateGte}/>
     </div>
     <div className="filter-section-date">
       <p>complete_lte</p>
-      <Example />
+      <DatePickCompletedLte completedLte = {completedLte} setCompletedLte = {setCompletedLte}/>
     </div>
     <div className="filter-section-date">
       <p>complete_gte</p>
-      <Example />
+      <DatePickCompletedGte completedGte = {completedGte} setCompletedGte = {setCompletedGte}/>
     </div>
   </div>;
 };
