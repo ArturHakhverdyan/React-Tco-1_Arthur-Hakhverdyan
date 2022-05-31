@@ -1,3 +1,4 @@
+import { useCallback, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button } from "reactstrap";
 import { BACKEND_URL } from "../../../consts";
@@ -5,8 +6,37 @@ import { DatePickCompletedGte, DatePickCompletedLte, DatePickCreateGte, DatePick
 import './styles.css'
 
 
-export const FilterSection = ({tasks,setTasks,createLte,setCreateLte,createGte,setCreateGte,completedLte,setCompletedLte,completedGte,setCompletedGte}) => {
+export const FilterSection = ({tasks,setTasks,setFilterField}) => {
+
+
+  
+  const [createLte, setCreateLte] = useState(new Date())
+  const [createGte, setCreateGte] = useState(new Date())
+  const [completeLte, setCompleteLte] = useState(new Date())
+  const [completeGte, setCompleteGte] = useState(new Date())
+
+  const handleCreateLte = useCallback((date) => {
+    setCreateLte(date)
+    setFilterField(['create_lte', createLte])
+  }, [createLte,setFilterField])
+
+  const handleCreateGte = useCallback((date) => {
+    setCreateGte(date)
+    setFilterField(['create_gte', createGte])
+  }, [createGte,setFilterField])
+
+  const handleCompletedLte = useCallback((date) => {
+    setCompleteLte(date)
+    setFilterField(['complete_lte', completeLte])
+  }, [completeLte,setFilterField])
+
+  const handleCompletedGte =useCallback((date) => {
+    setCompleteGte(date)
+    setFilterField(['complete_gte', completeGte])
+  },[completeGte,setFilterField])
+
   const showDoneStatus = () => {
+
     fetch(`${BACKEND_URL}/task?status=done`)
     .then(res => res.json())
     .then(data => setTasks(data))
@@ -26,19 +56,19 @@ export const FilterSection = ({tasks,setTasks,createLte,setCreateLte,createGte,s
     </div>
     <div className="filter-section-date">
       <p>create_lte</p>
-      <DatePickCreateLte createLte = {createLte} setCreateLte = {setCreateLte}/>
+      <DatePickCreateLte createLte = {createLte}  handleCreateLte={handleCreateLte}/>
     </div>
     <div className="filter-section-date">
       <p>create_gte</p>
-      <DatePickCreateGte createGte = {createGte} setCreateGte = {setCreateGte}/>
+      <DatePickCreateGte createGte = {createGte} handleCreateGte = {handleCreateGte} />
     </div>
     <div className="filter-section-date">
       <p>complete_lte</p>
-      <DatePickCompletedLte completedLte = {completedLte} setCompletedLte = {setCompletedLte}/>
+      <DatePickCompletedLte completeLte = {completeLte} handleCompletedLte = {handleCompletedLte}/>
     </div>
     <div className="filter-section-date">
       <p>complete_gte</p>
-      <DatePickCompletedGte completedGte = {completedGte} setCompletedGte = {setCompletedGte}/>
+      <DatePickCompletedGte completeGte = {completeGte} handleCompletedGte = {handleCompletedGte}/>
     </div>
   </div>;
 };
