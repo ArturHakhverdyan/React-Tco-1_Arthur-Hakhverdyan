@@ -1,11 +1,13 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Button, Form, FormFeedback, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap"
 import { DatePick } from "../../components/DatePick"
 import { BACKEND_URL } from "../../consts"
 import { IsRequired, MinLength3, MaxLength20, MaxLength500 } from "../../helpers/validations"
 import * as moment from "moment";
+import { TaskContext } from "../../context"
 
-const AddTaskForm = ({ onSubmitCallback, setTasks }) => {
+const AddTaskForm = ({ onSubmitCallback }) => {
+    const {setTasks } = useContext(TaskContext)
 
     const [inputsData, setInputsData] = useState({
         title: {
@@ -121,14 +123,14 @@ const AddTaskForm = ({ onSubmitCallback, setTasks }) => {
 }
 
 
-export const SharedModal = ({ onClose, setTasks }) => {
+export const SharedModal = ({ onClose,  }) => {
     return (
         <Modal toggle={onClose} isOpen={true}>
             <ModalHeader toggle={onClose}>
                 Modal title
             </ModalHeader>
             <ModalBody>
-                <AddTaskForm setTasks={setTasks} onSubmitCallback={onClose} />
+                <AddTaskForm onSubmitCallback={onClose} />
             </ModalBody>
             <ModalFooter>
                 <Button onClick={onClose}>

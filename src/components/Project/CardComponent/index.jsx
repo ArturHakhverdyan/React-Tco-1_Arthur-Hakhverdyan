@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 export const CardComponent = memo(({ todo,
   taskStatusChangeHendler,
   deleteCardHendler,
-  setTasks
+  toggleDeletedTask
 }) => {
   const { status, description, title, _id } = todo
   const nextStatus = status === 'active' ? 'done' : 'active'
@@ -28,6 +28,9 @@ export const CardComponent = memo(({ todo,
   return (
     <div className="div-card">
       <Card>
+      <div>
+        <input type="checkbox" onClick={() => toggleDeletedTask(_id)} />
+      </div>
         <CardImg
           alt="Card image cap"
           src="https://picsum.photos/318/180"
@@ -60,7 +63,6 @@ export const CardComponent = memo(({ todo,
             setShowEditModal(false)
             setEditableState(null)
           }}
-            setTasks={setTasks}
           />)}
 
         </CardBody>
