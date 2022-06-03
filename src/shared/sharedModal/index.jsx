@@ -2,7 +2,7 @@ import { useContext, useState } from "react"
 import { Button, Form, FormFeedback, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap"
 import { DatePick } from "../../components/DatePick"
 import { BACKEND_URL } from "../../consts"
-import { IsRequired, MinLength3, MaxLength20, MaxLength500 } from "../../helpers/validations"
+import { IsRequired, MinLength3, MaxLength20 } from "../../helpers/validations"
 import * as moment from "moment";
 import { TaskContext } from "../../context"
 
@@ -18,7 +18,7 @@ const AddTaskForm = ({ onSubmitCallback }) => {
         description: {
             value: '',
             error: undefined,
-            validations: [IsRequired, MinLength3, MaxLength500]
+            validations: [IsRequired, MinLength3]
         }
     })
 
