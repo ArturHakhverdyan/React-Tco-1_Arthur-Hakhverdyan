@@ -10,4 +10,6 @@ export const IsRequired = (value) => {
    const MaxLength = (length) => (value) => {
        return value.length <= length ? undefined:` Max length must be ${length}`
    }
+   
    export const MaxLength20 = MaxLength(20)
+

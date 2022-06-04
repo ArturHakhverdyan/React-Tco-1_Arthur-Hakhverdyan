@@ -1,10 +1,10 @@
 
 import { HeadRight } from "./HeadRight";
 import "./styles.css";
-export const Head = () => {
+export const Head = ({setFilterField}) => {
   
   return <div className="main-section-head">
 
-        <HeadRight />
+        <HeadRight  setFilterField = {setFilterField}/>
   </div>;
 };

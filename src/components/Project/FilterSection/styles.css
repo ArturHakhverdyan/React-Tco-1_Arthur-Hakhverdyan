@@ -1,4 +1,26 @@
 .filter-section {
   width: 25%;
   background-color: rgb(105, 122, 179);
+  text-align: center;
 }
+.filter-section-date{
+  display: flex;
+  margin: 10px;
+  
+}
+.filter-section-status {
+  margin-bottom: 60px;
+  margin-top: 80px;
+}
+
+.filter-section-status-p {
+  font-size: 30px;
+  margin-bottom: 40px;
+}
+.active-btn {
+  border: 1px solid black;
+}
+.filter-section-date p {
+  width: 200px;
+}
+

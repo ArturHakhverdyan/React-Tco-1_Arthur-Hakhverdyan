@@ -2,37 +2,44 @@ import './styles.css'
 import { Input, Button } from "reactstrap"
 import { useState } from 'react'
 import { SharedModal } from '../../../../../shared/sharedModal'
+import { SORT_FIELDS } from '../../../../../consts'
 
 
-const SortSelect = () => {
-    return (
-        <Input name="sort_by" type="select">
-            <option>Sort By</option>
-            <option>Newest First</option>
-            <option>Oldest First</option>
-            <option>Todo at Newest</option>
-        </Input>
-    )
-}
+  const SortSelect = ({ onChange }) => {
+        return (
+            <Input name="sort_by" type="select" onChange={onChange}>
+                {SORT_FIELDS.map(({value,label}) => {
+                    return <option value={value} key = {label} >
+                        {label}
+                    </option>
+                })}
+            </Input>
+        )
+    }
 
-const SearchInput = () => {
-    return (
-        <Input type="serach" name="search" placeholder="search" />
-    )
-}
-
-
-
-
-export const HeadRight = () => {
+export const HeadRight = ({setFilterField }) => {
     const [isShowAddTaskModal, setIsShowAddTaskModal] = useState(false);
     const handleBtnClick = () => {
-        if(isShowAddTaskModal) {
+        if (isShowAddTaskModal) {
             setIsShowAddTaskModal(false)
         } else {
             setIsShowAddTaskModal(true)
         }
     }
+
+    const sortTask = (e) => {
+        const { value } = e.target
+        setFilterField(['sort',value])
+    }
+
+    const searchTask = (e) => {
+        const { value } = e.target
+        setFilterField(['search',value])
+    }
+   
+
+    
+
     return (
         <div className="head-right">
             <Button
@@ -41,13 +48,14 @@ export const HeadRight = () => {
                 outline
                 onClick={handleBtnClick}
             >
-                info
+                Add Task
             </Button>
-            <SortSelect />
-            <SearchInput />
-            {isShowAddTaskModal && (<SharedModal  onClose = {() => {
+            <SortSelect onChange={sortTask} />
+            <Input type="serach" name="search" placeholder="search" onChange={searchTask} />
+            {isShowAddTaskModal && (<SharedModal onClose={() => {
                 setIsShowAddTaskModal(false)
-            }}/>)}
+            }}
+                />)}
         </div>
     )
 }

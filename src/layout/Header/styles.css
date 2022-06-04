@@ -7,3 +7,11 @@
   align-items: center;
   justify-content: flex-end;
 }
+.layout-header nav ul {
+  display: flex;
+}
+.layout-header nav ul li a {
+  margin: 15px;
+  color: white;
+  text-decoration: none;
+}
