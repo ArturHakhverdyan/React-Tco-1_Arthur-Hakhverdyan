@@ -74,7 +74,8 @@ export const Body = () => {
         setTasks((prev) => {
           return prev.filter((task) => !batchDelTasks.includes(task._id))
         })
-      })
+        setDeletedTasksSet(new Set())
+      })  
   }
   return (
     <div>

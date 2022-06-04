@@ -17,7 +17,7 @@ const [contactData ,setContactData] = useState({
     validations:[IsRequired, MinLength3, MaxLength20]
   },
   massage:{
-    name:"",
+    value:"",
     error:undefined,
     validations:[IsRequired, MinLength3, MaxLength20],
     
@@ -26,18 +26,20 @@ const [contactData ,setContactData] = useState({
 
   const onSubmit = (e) => {
     e.preventDefault()
-    const { name: { value: name }, email: { value: email },massage:{name: massage} } = contactData
+    const { name: { value: name }, email: { value: email },massage:{value: massage} } = contactData
 
     const formData = {
       name,
       email,
-      massage,
+      message:massage,
       
     }
 
     fetch(`${BACKEND_URL}/form`,{
       method:"POST",
-      body:JSON.stringify({ formData})
+      body:JSON.stringify(formData),
+      headers:{"Content-Type":"application/json"}
+
     })
     .then(res => res.json())
     .then(data => {
