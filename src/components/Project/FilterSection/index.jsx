@@ -1,39 +1,41 @@
-import { useCallback, useState } from "react";
+import *as moment from "moment";
+import {  useCallback, useContext, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button } from "reactstrap";
-import { BACKEND_URL } from "../../../consts";
-import { DatePickCompletedGte, DatePickCompletedLte, DatePickCreateGte, DatePickCreateLte } from "../../DatePick";
+import { BACKEND_URL, FILTER_DATE_PICKERS } from "../../../consts";
+import { TaskContext } from "../../../context";
+import { DatePick } from "../../DatePick";
 import './styles.css'
 
 
-export const FilterSection = ({tasks,setTasks,setFilterField}) => {
+export const FilterSection = ({setFilterField}) => {
 
 
+  const {setTasks } = useContext(TaskContext)  
   
-  const [createLte, setCreateLte] = useState(new Date())
-  const [createGte, setCreateGte] = useState(new Date())
-  const [completeLte, setCompleteLte] = useState(new Date())
-  const [completeGte, setCompleteGte] = useState(new Date())
-
-  const handleCreateLte = useCallback((date) => {
-    setCreateLte(date)
-    setFilterField(['create_lte', createLte])
-  }, [createLte,setFilterField])
-
-  const handleCreateGte = useCallback((date) => {
-    setCreateGte(date)
-    setFilterField(['create_gte', createGte])
-  }, [createGte,setFilterField])
-
-  const handleCompletedLte = useCallback((date) => {
-    setCompleteLte(date)
-    setFilterField(['complete_lte', completeLte])
-  }, [completeLte,setFilterField])
-
-  const handleCompletedGte =useCallback((date) => {
-    setCompleteGte(date)
-    setFilterField(['complete_gte', completeGte])
-  },[completeGte,setFilterField])
+  const createdLte = useState(new Date());
+  const createdGte = useState(new Date());
+  const completedLte = useState(new Date());
+  const completedGte = useState(new Date());
+  
+  const getFilterState = useCallback(
+    (name) => {
+      switch (name) {
+        case "create_lte":
+          return createdLte;
+        case "create_gte":
+          return createdGte;
+        case "complete_lte":
+          return completedLte;
+        case "complete_gte":
+          return completedGte;
+        default:
+          return null;
+      }
+    },
+    [createdLte, createdGte, completedLte, completedGte]
+  );
+  
 
   const showDoneStatus = () => {
 
@@ -54,22 +56,39 @@ export const FilterSection = ({tasks,setTasks,setFilterField}) => {
       <Button color='info' onClick = {showDoneStatus} style = {{marginRight:'20px',border:'1px solid black',borderRadius:'25px',width:'100px'}}>Done</Button>
       <Button color='info' onClick={showActiveStatus} style = {{border:'1px solid black',borderRadius:'25px',width:'100px'}}>Active</Button>
     </div>
-    <div className="filter-section-date">
-      <p>create_lte</p>
-      <DatePickCreateLte createLte = {createLte}  handleCreateLte={handleCreateLte}/>
-    </div>
-    <div className="filter-section-date">
-      <p>create_gte</p>
-      <DatePickCreateGte createGte = {createGte} handleCreateGte = {handleCreateGte} />
-    </div>
-    <div className="filter-section-date">
-      <p>complete_lte</p>
-      <DatePickCompletedLte completeLte = {completeLte} handleCompletedLte = {handleCompletedLte}/>
-    </div>
-    <div className="filter-section-date">
-      <p>complete_gte</p>
-      <DatePickCompletedGte completeGte = {completeGte} handleCompletedGte = {handleCompletedGte}/>
-    </div>
+   <div>
+      {FILTER_DATE_PICKERS.map((pickerData,index) => {
+        const[date,setDate] = getFilterState(pickerData.value)
+      
+      return (
+        <div key={index}>
+          <p>
+            {pickerData.label}
+          </p>
+          <DatePick 
+          startDate={date}
+          setStartDate = {(date) => {
+            setDate(date)
+            setFilterField([
+              pickerData.value,
+              moment(date).format("YYYY-MM-DD")
+            ])
+          }}
+          name ={pickerData.value}
+          /> 
+          <button
+              onClick={() => {
+                setDate(new Date());
+                setFilterField([pickerData.value, ""]);
+              }}
+            >
+              Reset
+            </button>
+        </div>
+      )
+      })}
+      
+   </div>
   </div>;
 };
 

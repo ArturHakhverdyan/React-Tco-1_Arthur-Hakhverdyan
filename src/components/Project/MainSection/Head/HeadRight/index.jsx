@@ -17,7 +17,7 @@ import { SORT_FIELDS } from '../../../../../consts'
         )
     }
 
-export const HeadRight = ({ setTasks,setFilterField }) => {
+export const HeadRight = ({setFilterField }) => {
     const [isShowAddTaskModal, setIsShowAddTaskModal] = useState(false);
     const handleBtnClick = () => {
         if (isShowAddTaskModal) {
@@ -55,7 +55,7 @@ export const HeadRight = ({ setTasks,setFilterField }) => {
             {isShowAddTaskModal && (<SharedModal onClose={() => {
                 setIsShowAddTaskModal(false)
             }}
-                setTasks={setTasks} />)}
+                />)}
         </div>
     )
 }

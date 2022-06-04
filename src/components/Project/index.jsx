@@ -10,8 +10,8 @@ import "./styles.css";
 export const Project = () => {
   
   const [queryObject, setQueryObject] = useState({})
-  const { tasks } = useContext(TaskContext)
-  const {setTasks} = useContext(TaskContext)
+  const { setTasks } = useContext(TaskContext)
+
 
   useEffect(() => {
     const query = generateQuery(queryObject)
@@ -40,11 +40,10 @@ export const Project = () => {
   return (
     <div className="project-layout">
       <FilterSection
-        tasks={tasks}
-        setTasks={setTasks}
+        
         setFilterField={setFilterField}
       />
-      <MainSection tasks={tasks} setTasks={setTasks} setFilterField={setFilterField} />
+      <MainSection  setFilterField={setFilterField} />
     </div>
   );
 };
