@@ -16,8 +16,8 @@ const [contactData ,setContactData] = useState({
     error:undefined,
     validations:[IsRequired, MinLength3, MaxLength20]
   },
-  massage:{
-    name:"",
+  message:{
+    value:"",
     error:undefined,
     validations:[IsRequired, MinLength3, MaxLength20],
     
@@ -26,18 +26,19 @@ const [contactData ,setContactData] = useState({
 
   const onSubmit = (e) => {
     e.preventDefault()
-    const { name: { value: name }, email: { value: email },massage:{name: massage} } = contactData
+    const { name: { value: name }, email: { value: email },message:{value: message} } = contactData
 
     const formData = {
       name,
       email,
-      massage,
+      message,
       
     }
 
     fetch(`${BACKEND_URL}/form`,{
       method:"POST",
-      body:JSON.stringify({ formData})
+      body:JSON.stringify( formData),
+      headers: {"Content-type" : "application/json"}
     })
     .then(res => res.json())
     .then(data => {
@@ -103,16 +104,16 @@ const [contactData ,setContactData] = useState({
                 )}
         
         <Label for="massageId">
-          Massage
+          message
         </Label>
         <Input style={{ width: '300px' }}
           id='massageId'
-          name='massage'
+          name='message'
           onChange={contactChange}
-          invalid={!!contactData.massage.error}
+          invalid={!!contactData.message.error}
         />
-        {!!contactData.massage.error && (
-                    <FormFeedback>{contactData.massage.error}</FormFeedback>
+        {!!contactData.message.error && (
+                    <FormFeedback>{contactData.message.error}</FormFeedback>
                 )}
       </FormGroup>
       <Button onClick={onSubmit}>
