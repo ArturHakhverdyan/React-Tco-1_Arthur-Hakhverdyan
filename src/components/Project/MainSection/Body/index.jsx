@@ -8,7 +8,7 @@ import { BACKEND_URL } from "../../../../consts";
 import { connect } from "react-redux";
 import { removeMultipleTasksAction } from "../../../../redux/actions/task-actions";
 
-const ConnectedBody = ({ tasks, setTasks, removeMultipleTasks }) => {
+const ConnectedBody = ({ tasks, removeMultipleTasks }) => {
   const [deletedTasksSet, setDeletedTasksSet] = useState(new Set());
 
   const toggleDeletedTask = useCallback((_id) => {

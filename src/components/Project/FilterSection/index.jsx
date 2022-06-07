@@ -1,17 +1,16 @@
 import *as moment from "moment";
-import {  useCallback, useContext, useState } from "react";
+import {  useCallback, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button } from "reactstrap";
 import { BACKEND_URL, FILTER_DATE_PICKERS } from "../../../consts";
-import { TaskContext } from "../../../context";
 import { DatePick } from "../../DatePick";
 import './styles.css'
 
 
-export const FilterSection = ({setFilterField}) => {
+export const FilterSection = ({setFilterField,setTasks}) => {
 
 
-  const {setTasks } = useContext(TaskContext)  
+   
   
   const createdLte = useState(new Date());
   const createdGte = useState(new Date());
