@@ -7,7 +7,7 @@ import { MainSection } from "./MainSection";
 import { setTasksAction } from '../../redux/actions/task-actions'
 import "./styles.css";
 
-const ConnectedProject = ({ setTasks }) => {
+const ConnectedProject = ({ setTasks}) => {
   /* Local State */
   const [queryObject, setQueryObject] = useState({});
 
@@ -50,8 +50,6 @@ const ConnectedProject = ({ setTasks }) => {
     </div>
   );
 };
-
-
 
 export const Project = connect(null, {
   setTasks: setTasksAction
