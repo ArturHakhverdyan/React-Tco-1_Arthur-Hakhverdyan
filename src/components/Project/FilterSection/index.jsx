@@ -1,17 +1,15 @@
 import *as moment from "moment";
-import {  useCallback, useContext, useState } from "react";
+import {  useCallback, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
+import { connect } from "react-redux";
 import { Button } from "reactstrap";
 import { BACKEND_URL, FILTER_DATE_PICKERS } from "../../../consts";
-import { TaskContext } from "../../../context";
+import { setTasksAction } from "../../../redux/actions/task-actions";
 import { DatePick } from "../../DatePick";
 import './styles.css'
 
+ const FilterSectionConnected = ({setFilterField,setTasks}) => {
 
-export const FilterSection = ({setFilterField}) => {
-
-
-  const {setTasks } = useContext(TaskContext)  
   
   const createdLte = useState(new Date());
   const createdGte = useState(new Date());
@@ -92,4 +90,7 @@ export const FilterSection = ({setFilterField}) => {
   </div>;
 };
 
+export const FilterSection = connect(null, {
+  setTasks: setTasksAction
+})(FilterSectionConnected)
 

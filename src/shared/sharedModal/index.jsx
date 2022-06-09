@@ -1,142 +1,151 @@
-import { useContext, useState } from "react"
-import { Button, Form, FormFeedback, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap"
-import { DatePick } from "../../components/DatePick"
-import { BACKEND_URL } from "../../consts"
-import { IsRequired, MinLength3, MaxLength20 } from "../../helpers/validations"
+import { useRef, useState } from "react";
+import {
+  Button,
+  Form,
+  FormFeedback,
+  FormGroup,
+  Input,
+  Label,
+} from "reactstrap";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import { IsRequired, MaxLength20, MinLength3 } from "../../helpers/validations";
+import { BACKEND_URL } from "../../consts";
+import { DatePick } from "../../components/DatePick";
 import * as moment from "moment";
-import { TaskContext } from "../../context"
+import { connect } from "react-redux";
+import { addNewTaskAction } from "../../redux/actions/task-actions";
 
-const AddTaskForm = ({ onSubmitCallback }) => {
-    const {setTasks } = useContext(TaskContext)
+const ConnectedAddTaskForm = ({ onSubmitCallback, setTasks, addNewTask }) => {
+  const titleInputRef = useRef(null);
+  const descriptionInputRef = useRef(null);
 
-    const [inputsData, setInputsData] = useState({
-        title: {
-            value: '',
-            error: undefined,
-            validations: [IsRequired, MinLength3, MaxLength20]
-        },
-        description: {
-            value: '',
-            error: undefined,
-            validations: [IsRequired, MinLength3]
-        }
+  const [inputsData, setInputsData] = useState({
+    title: {
+      value: "",
+      error: undefined,
+      validations: [IsRequired, MinLength3, MaxLength20],
+    },
+    description: {
+      value: "",
+      error: undefined,
+      validations:  [IsRequired, MinLength3, MaxLength20],
+    },
+  });
+
+  const [startDate, setStartDate] = useState(new Date());
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const {
+      title: { value: title },
+      description: { value: description },
+    } = inputsData;
+
+    const formData = {
+      title,
+      description,
+      date: moment(startDate).format("YYYY-MM-DD"),
+    };
+
+    fetch(`${BACKEND_URL}/task`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
     })
+      .then((response) => response.json())
+      .then((data) => {
+        addNewTask(data)
+        onSubmitCallback();
+      });
+  };
 
-    const [startDate, setStartDate] = useState(new Date());
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    const { validations } = inputsData[name];
 
+    let error;
 
+    for (let i = 0; i < validations.length; i++) {
+      const validation = validations[i];
+      const errorMessage = validation(value);
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-        const { title: { value: title }, description: { value: description } } = inputsData
-        const formData = {
-            title,
-            description,
-            date: moment(startDate).format('YYYY-MM-DD')
-        }
-        fetch(`${BACKEND_URL}/task`,{
-            method:"POST",
-            headers: {"Content-type" : "application/json"},
-            body: JSON.stringify(formData)
-        })  
-        .then((response) => response.json())
-        .then((data) => {
-            setTasks((prev) => {
-                return [...prev ,data]
-            })
-        })
-        onSubmitCallback()
+      if (errorMessage) {
+        error = errorMessage;
+        break;
+      }
     }
 
-    const handleChange = (e) => {
-        const { value, name } = e.target;
-        const { validations } = inputsData[name];
+    setInputsData((prev) => {
+      return {
+        ...prev,
+        [name]: {
+          ...prev[name],
+          value,
+          error,
+        },
+      };
+    });
+  };
 
-        let error;
+  return (
+    <Form onSubmit={onSubmit}>
+      <FormGroup>
+        <Label for="titleId">Title</Label>
+        <Input
+          id="titleId"
+          name="title"
+          placeholder="Task title"
+          type="text"
+          innerRef={titleInputRef}
+          onChange={handleChange}
+          invalid={!!inputsData.title.error}
+        />
+        {!!inputsData.title.error && (
+          <FormFeedback>{inputsData.title.error}</FormFeedback>
+        )}
+      </FormGroup>
+      <FormGroup>
+        <Label for="descriptionId">Description</Label>
+        <Input
+          id="descriptionId"
+          name="description"
+          placeholder="Task descriptionId"
+          type="text"
+          innerRef={descriptionInputRef}
+          onChange={handleChange}
+          invalid={!!inputsData.description.error}
+        />
+        {!!inputsData.description.error && (
+          <FormFeedback>{inputsData.description.error}</FormFeedback>
+        )}
+      </FormGroup>
+      <FormGroup>
+        <DatePick startDate={startDate} setStartDate={setStartDate} />
+      </FormGroup>
+      <Button color="primary" onClick={onSubmit}>
+        Add Task
+      </Button>{" "}
+      <Button color="primary">Clear</Button>{" "}
+    </Form>
+  );
+};
 
-        for (let i = 0; i < validations.length; i++) {
-            const validation = validations[i]
-            const errorMessage = validation(value)
+export const AddTaskForm = connect(null, {
+  addNewTask: addNewTaskAction
+})(ConnectedAddTaskForm)
 
-            if (errorMessage) {
-                error = errorMessage;
-                break;
-            }
-        }
-
-        setInputsData((prev) => {
-            return {
-                ...prev,
-                [name]: {
-                    ...prev[name],
-                    value,
-                    error
-                },
-            };
-        });
-    }
-
-    return (
-        <Form>
-            <FormGroup>
-                <Label for="titleId">
-                    Title
-                </Label>
-                <Input
-                    id="titleId"
-                    name="title"
-                    placeholder="task Title"
-                    type="text"
-                    onChange={handleChange}
-                    invalid={!!inputsData.title.error}
-                />
-                {!!inputsData.title.error && (
-                    <FormFeedback>{inputsData.title.error}</FormFeedback>
-                )}
-            </FormGroup>
-            <FormGroup>
-                <Label for="descriptionId">
-                    Description
-                </Label>
-                <Input
-                    id="descriptionId"
-                    name="description"
-                    placeholder="task Description"
-                    type="text"
-                    onChange={handleChange}
-                    invalid={!!inputsData.description.error}
-                />
-                {!!inputsData.description.error && (
-                    <FormFeedback>{inputsData.description.error}</FormFeedback>
-                )}
-
-            </FormGroup>
-            <FormGroup>
-                <DatePick startDate = {startDate} setStartDate = {setStartDate}/>
-            </FormGroup>
-            <Button color="primary" onClick={onSubmit}>
-                Add Task
-            </Button>
-            
-        </Form>
-    )
-}
-
-
-export const SharedModal = ({ onClose,  }) => {
-    return (
-        <Modal toggle={onClose} isOpen={true}>
-            <ModalHeader toggle={onClose}>
-                Modal title
-            </ModalHeader>
-            <ModalBody>
-                <AddTaskForm onSubmitCallback={onClose} />
-            </ModalBody>
-            <ModalFooter>
-                <Button onClick={onClose}>
-                    Cancel
-                </Button>
-            </ModalFooter>
-        </Modal>
-    )
-}
+export const SharedModal = ({ onClose, setTasks }) => {
+  return (
+    <Modal toggle={onClose} isOpen={true}>
+      <ModalHeader toggle={onClose}>Modal title</ModalHeader>
+      <ModalBody>
+        <AddTaskForm onSubmitCallback={onClose} setTasks={setTasks} />
+      </ModalBody>
+      <ModalFooter>
+        <Button onClick={onClose}>Cancel</Button>
+      </ModalFooter>
+    </Modal>
+  );
+};
