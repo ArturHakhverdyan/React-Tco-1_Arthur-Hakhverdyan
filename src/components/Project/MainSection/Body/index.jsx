@@ -5,10 +5,39 @@ import { CardComponent } from "../../CardComponent";
 import "./styles.css";
 import { BACKEND_URL } from "../../../../consts";
 import { connect } from "react-redux";
-import { removeMultipleTasksAction } from "../../../../redux/actions/task-actions";
+import { deleteSingleCardAction, removeMultipleTasksAction, taskStatusChangeAction } from "../../../../redux/actions/task-actions";
 
-const ConnectedBody = ({ tasks, setTasks, removeMultipleTasks }) => {
+const ConnectedBody = ({ tasks, removeMultipleTasks,deleteSingleCard,taskStatusChange }) => {
   const [deletedTasksSet, setDeletedTasksSet] = useState(new Set());
+
+  const taskStatusChangeHendler = useCallback((_id, status) => {
+
+    fetch(`http://localhost:3001/task/${_id}`, {
+      headers: { "Content-Type": "application/json" },
+      method: "PUT",
+      body: JSON.stringify({
+        status,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        taskStatusChange(data)
+      });
+  }, [taskStatusChange])
+
+
+  const deleteCardHendler = useCallback((_id) => {
+    fetch(`http://localhost:3001/task/${_id}`, {
+      method: "DELETE",
+    })
+      .then(res => res.json())
+      .then(() => {
+        deleteSingleCard(_id)
+        
+      })
+
+
+  }, [deleteSingleCard])
 
   const toggleDeletedTask = useCallback((_id) => {
     setDeletedTasksSet((prev) => {
@@ -59,6 +88,8 @@ const ConnectedBody = ({ tasks, setTasks, removeMultipleTasks }) => {
               key={todo._id}
               todo={todo}
               toggleDeletedTask={toggleDeletedTask}
+              taskStatusChangeHendler = {taskStatusChangeHendler}
+              deleteCardHendler= {deleteCardHendler}
             />
           );
         })}
@@ -72,8 +103,9 @@ const mapStateToProps = (state) => ({
   tasks: state.taskReducerState.tasks
 })
 const mapDispatchToProps = (dispatch) => ({
-  removeMultipleTasks: (deletedTasksIds) => dispatch(removeMultipleTasksAction(deletedTasksIds))
-  // {type:'REMOVE_MULTIPLE_TASKS' , payload:deletedTasksIds}
+  removeMultipleTasks: (deletedTasksIds) => dispatch(removeMultipleTasksAction(deletedTasksIds)),
+  deleteSingleCard:(taskId) => dispatch(deleteSingleCardAction(taskId)),
+  taskStatusChange : (taskStatus) => dispatch(taskStatusChangeAction(taskStatus))
 })
 
 export const Body = connect(mapStateToProps, mapDispatchToProps)(ConnectedBody)
