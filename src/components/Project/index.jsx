@@ -1,26 +1,20 @@
 import { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { getTasksRequest } from "../../api";
 import { generateQuery } from "../../helpers";
 import { FilterSection } from "./FilterSection";
 import { MainSection } from "./MainSection";
-import { setTasksAction } from '../../redux/actions/task-actions'
+import { getTasksThunk } from '../../redux/actions/task-actions'
 import "./styles.css";
 
-const ConnectedProject = ({ setTasks}) => {
-  /* Local State */
+const ConnectedProject = ({ getTasks}) => {
   const [queryObject, setQueryObject] = useState({});
 
-  /* useEffects */
   useEffect(() => {
     const query = generateQuery(queryObject);
 
-    getTasksRequest(query).then((data) => {
-      setTasks(data)
-    });
-  }, [setTasks,queryObject]);
+    getTasks(query)
+  }, [getTasks,queryObject]);
 
-  /* cashed callbacks */
   const setFilterField = useCallback((filterEntries) => {
     const [name, value] = filterEntries;
 
@@ -42,9 +36,8 @@ const ConnectedProject = ({ setTasks}) => {
 
   return (
     <div className="project-layout">
-      <FilterSection setFilterField={setFilterField} setTasks = {setTasks} />
+      <FilterSection setFilterField={setFilterField}  />
       <MainSection
-        setTasks={setTasks}
         setFilterField={setFilterField}
       />
     </div>
@@ -52,5 +45,5 @@ const ConnectedProject = ({ setTasks}) => {
 };
 
 export const Project = connect(null, {
-  setTasks: setTasksAction
+  getTasks: getTasksThunk
 })(ConnectedProject)

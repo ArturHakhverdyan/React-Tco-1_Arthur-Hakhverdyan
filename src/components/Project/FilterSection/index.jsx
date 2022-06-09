@@ -4,11 +4,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import { connect } from "react-redux";
 import { Button } from "reactstrap";
 import { BACKEND_URL, FILTER_DATE_PICKERS } from "../../../consts";
-import { setTasksAction } from "../../../redux/actions/task-actions";
+import { getTasksThunk } from "../../../redux/actions/task-actions";
 import { DatePick } from "../../DatePick";
 import './styles.css'
 
- const FilterSectionConnected = ({setFilterField,setTasks}) => {
+ const FilterSectionConnected = ({setFilterField,getTasks}) => {
 
   
   const createdLte = useState(new Date());
@@ -39,13 +39,13 @@ import './styles.css'
 
     fetch(`${BACKEND_URL}/task?status=done`)
     .then(res => res.json())
-    .then(data => setTasks(data))
+    .then(data => getTasks(data))
   }
 
   const showActiveStatus = () => {
     fetch(`${BACKEND_URL}/task?status=active`)
     .then(res => res.json())
-    .then(data => setTasks(data))
+    .then(data => getTasks(data))
   }
 
   return <div className="filter-section">
@@ -91,6 +91,6 @@ import './styles.css'
 };
 
 export const FilterSection = connect(null, {
-  setTasks: setTasksAction
+  getTasks: getTasksThunk
 })(FilterSectionConnected)
 
