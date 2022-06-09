@@ -4,15 +4,14 @@ import { Button } from "reactstrap";
 import { CardComponent } from "../../CardComponent";
 import "./styles.css";
 import { connect } from "react-redux";
-import {  deleteSingleCardThunk, removeMultipleTasksThunk, taskStatusChangeThunk } from "../../../../redux/actions/task-actions";
+import {  deleteSingleCardThunk, editTaskThunk, removeMultipleTasksThunk } from "../../../../redux/actions/task-actions";
 
-const ConnectedBody = ({ tasks, removeMultipleTasks,deleteSingleCard,taskStatusChange }) => {
+const ConnectedBody = ({ tasks, removeMultipleTasks,deleteSingleCard,editTask }) => {
   const [deletedTasksSet, setDeletedTasksSet] = useState(new Set());
 
-  const taskStatusChangeHendler = useCallback((_id, status) => {
-
-    taskStatusChange(_id,status)
-  }, [taskStatusChange])
+  const taskStatusChangeHendler = (_id, status) => {
+    editTask(_id,{status})
+  }
 
 
   const deleteCardHendler = useCallback((_id) => { 
@@ -73,7 +72,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   removeMultipleTasks: (deletedTasksIds) => dispatch(removeMultipleTasksThunk(deletedTasksIds)),
   deleteSingleCard:(taskId) => dispatch(deleteSingleCardThunk(taskId)),
-  taskStatusChange : (taskStatus) => dispatch(taskStatusChangeThunk(taskStatus))
+  editTask : (_id,taskStatus) => dispatch(editTaskThunk(_id,taskStatus))
 })
 
 export const Body = connect(mapStateToProps, mapDispatchToProps)(ConnectedBody)

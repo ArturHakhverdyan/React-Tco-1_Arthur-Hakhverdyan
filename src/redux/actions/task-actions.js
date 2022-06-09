@@ -90,22 +90,22 @@ export const deleteSingleCardThunk = (_id) => (dispatch,getState) => {
         })
 }
 
-export const taskStatusChangeThunk = (_id,status) => (dispatch) => {
-    fetch(`http://localhost:3001/task/${_id}`, {
-        headers: { "Content-Type": "application/json" },
-        method: "PUT",
-        body: JSON.stringify({
-          status,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          dispatch(taskStatusChangeAction(data))
-        });
-}
+// export const taskStatusChangeThunk = (_id,status) => (dispatch) => {
+//     fetch(`http://localhost:3001/task/${_id}`, {
+//         headers: { "Content-Type": "application/json" },
+//         method: "PUT",
+//         body: JSON.stringify({
+//           status,
+//         }),
+//       })
+//         .then((res) => res.json())
+//         .then((data) => {
+//           dispatch(taskStatusChangeAction(data))
+//         });
+// }
 
-export const editTaskThunk = (editableState,onSubmitCallback,formEdit) => (dispatch) => {
-    fetch(`${BACKEND_URL}/task/${editableState._id}`, {
+export const editTaskThunk = (_id,formEdit,onSubmitCallback) => (dispatch) => {
+    fetch(`${BACKEND_URL}/task/${_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formEdit),
@@ -113,7 +113,7 @@ export const editTaskThunk = (editableState,onSubmitCallback,formEdit) => (dispa
         .then((res) => res.json())
         .then((data) => {
             dispatch(editTaskAction(data))
-            onSubmitCallback()
+            onSubmitCallback && onSubmitCallback()
         })
 
 }

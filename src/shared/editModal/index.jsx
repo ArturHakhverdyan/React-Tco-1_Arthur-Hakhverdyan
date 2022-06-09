@@ -25,7 +25,7 @@ const EditTaskFormConected = ({ editableState, onSubmitCallback,editTask }) => {
             title,
             description
         }
-        editTask(editableState,onSubmitCallback,formEdit)
+        editTask(editableState._id,formEdit,onSubmitCallback)
 
 
     }
@@ -101,17 +101,10 @@ const EditTaskFormConected = ({ editableState, onSubmitCallback,editTask }) => {
     )
 }
 
-const mapStateToProps = (state) => ({
-    tasks: state.taskReducerState.tasks
-  
-  })
-  const mapDispatchToProps = (dispatch) => ({
-    editTask : (editTask) => dispatch(editTaskThunk(editTask)),
- 
-  
-  })
-  
-  export const EditTaskForm = connect(mapStateToProps, mapDispatchToProps)(EditTaskFormConected)
+
+export const EditTaskForm = connect(null, {
+    editTask: editTaskThunk
+  })(EditTaskFormConected)
 export const EditModal = ({ onclose, editableState }) => {
   
 
