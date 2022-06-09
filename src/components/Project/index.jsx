@@ -42,7 +42,7 @@ const ConnectedProject = ({ setTasks}) => {
 
   return (
     <div className="project-layout">
-      <FilterSection setFilterField={setFilterField} />
+      <FilterSection setFilterField={setFilterField} setTasks = {setTasks} />
       <MainSection
         setTasks={setTasks}
         setFilterField={setFilterField}
