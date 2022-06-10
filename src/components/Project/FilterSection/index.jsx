@@ -3,12 +3,12 @@ import {  useCallback, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { connect } from "react-redux";
 import { Button } from "reactstrap";
-import { BACKEND_URL, FILTER_DATE_PICKERS } from "../../../consts";
-import { setTasksAction } from "../../../redux/actions/task-actions";
+import {  FILTER_DATE_PICKERS } from "../../../consts";
+import {  getTasksStatusThunk } from "../../../redux/actions/task-actions";
 import { DatePick } from "../../DatePick";
 import './styles.css'
 
- const FilterSectionConnected = ({setFilterField,setTasks}) => {
+ const FilterSectionConnected = ({setFilterField,setTasks,getTaskStatus}) => {
 
   
   const createdLte = useState(new Date());
@@ -35,24 +35,23 @@ import './styles.css'
   );
   
 
-  const showDoneStatus = () => {
+  const showDoneStatus = (e) => {
+    const status = e.target.innerHTML.toLowerCase()
 
-    fetch(`${BACKEND_URL}/task?status=done`)
-    .then(res => res.json())
-    .then(data => setTasks(data))
+    getTaskStatus(status)
   }
 
-  const showActiveStatus = () => {
-    fetch(`${BACKEND_URL}/task?status=active`)
-    .then(res => res.json())
-    .then(data => setTasks(data))
-  }
+  // const showActiveStatus = () => {
+  //   fetch(`${BACKEND_URL}/task?status=active`)
+  //   .then(res => res.json())
+  //   .then(data => setTasks(data))
+  // }
 
   return <div className="filter-section">
     <div className="filter-section-status">
       <p className="filter-section-status-p">Status</p>
       <Button color='info' onClick = {showDoneStatus} style = {{marginRight:'20px',border:'1px solid black',borderRadius:'25px',width:'100px'}}>Done</Button>
-      <Button color='info' onClick={showActiveStatus} style = {{border:'1px solid black',borderRadius:'25px',width:'100px'}}>Active</Button>
+      <Button color='info' onClick={showDoneStatus} style = {{border:'1px solid black',borderRadius:'25px',width:'100px'}}>Active</Button>
     </div>
    <div>
       {FILTER_DATE_PICKERS.map((pickerData,index) => {
@@ -91,6 +90,6 @@ import './styles.css'
 };
 
 export const FilterSection = connect(null, {
-  setTasks: setTasksAction
+  getTaskStatus:getTasksStatusThunk
 })(FilterSectionConnected)
 
