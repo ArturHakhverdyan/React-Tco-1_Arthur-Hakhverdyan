@@ -42,7 +42,7 @@ export const editTaskAction = (newTask) => {
     }
 }
 
-export const getTasksThunk = (query) => (dispatch, getState) => {
+export const setTasksThunk = (query) => (dispatch, getState) => {
     getTasksRequest(query)
         .then(data => {
             dispatch(setTasksAction(data))
@@ -90,19 +90,6 @@ export const deleteSingleCardThunk = (_id) => (dispatch,getState) => {
         })
 }
 
-// export const taskStatusChangeThunk = (_id,status) => (dispatch) => {
-//     fetch(`http://localhost:3001/task/${_id}`, {
-//         headers: { "Content-Type": "application/json" },
-//         method: "PUT",
-//         body: JSON.stringify({
-//           status,
-//         }),
-//       })
-//         .then((res) => res.json())
-//         .then((data) => {
-//           dispatch(taskStatusChangeAction(data))
-//         });
-// }
 
 export const editTaskThunk = (_id,formEdit,onSubmitCallback) => (dispatch) => {
     fetch(`${BACKEND_URL}/task/${_id}`, {
@@ -116,4 +103,11 @@ export const editTaskThunk = (_id,formEdit,onSubmitCallback) => (dispatch) => {
             onSubmitCallback && onSubmitCallback()
         })
 
+}
+
+export const getTasksStatusThunk = (status) => (dispatch) => {
+    
+    fetch(`${BACKEND_URL}/task?status=${status}`)
+    .then(res => res.json())
+    .then(data => dispatch(setTasksAction(data)))
 }

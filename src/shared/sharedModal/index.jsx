@@ -14,7 +14,7 @@ import * as moment from "moment";
 import { connect } from "react-redux";
 import {  addNewTaskThunk } from "../../redux/actions/task-actions";
 
-const ConnectedAddTaskForm = ({ onSubmitCallback, setTasks, addNewTask }) => {
+const ConnectedAddTaskForm = ({ onSubmitCallback, addNewTask }) => {
   const titleInputRef = useRef(null);
   const descriptionInputRef = useRef(null);
 

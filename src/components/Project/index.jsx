@@ -3,17 +3,17 @@ import { connect } from "react-redux";
 import { generateQuery } from "../../helpers";
 import { FilterSection } from "./FilterSection";
 import { MainSection } from "./MainSection";
-import { getTasksThunk } from '../../redux/actions/task-actions'
+import {  setTasksThunk } from '../../redux/actions/task-actions'
 import "./styles.css";
 
-const ConnectedProject = ({ getTasks}) => {
+const ConnectedProject = ({ setTasks}) => {
   const [queryObject, setQueryObject] = useState({});
 
   useEffect(() => {
     const query = generateQuery(queryObject);
 
-    getTasks(query)
-  }, [getTasks,queryObject]);
+    setTasks(query)
+  }, [setTasks,queryObject]);
 
   const setFilterField = useCallback((filterEntries) => {
     const [name, value] = filterEntries;
@@ -45,5 +45,5 @@ const ConnectedProject = ({ getTasks}) => {
 };
 
 export const Project = connect(null, {
-  getTasks: getTasksThunk
+  setTasks: setTasksThunk
 })(ConnectedProject)
