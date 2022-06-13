@@ -11,12 +11,20 @@ export const NAVBAR_LINKS = {
     link: "",
     label: "About Me",
   },
+  registration: {
+    link: "registration",
+    label: "Registration",
+  },
+  login: {
+    link: "login",
+    label: "Login",
+  },
 };
 
 export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export const SORT_FIELDS = [
-  { label: "SortBy", value: "" },
+  { label: "Default", value: "" },
   { label: "Created newest", value: "creation_date_newest" },
   { label: "Created oldest", value: "creation_date_oldest" },
   { label: "Completed newest", value: "completion_date_newest" },
