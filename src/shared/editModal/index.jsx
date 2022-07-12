@@ -105,6 +105,7 @@ const EditTaskFormConected = ({ editableState, onSubmitCallback,editTask }) => {
 export const EditTaskForm = connect(null, {
     editTask: editTaskThunk
   })(EditTaskFormConected)
+  
 export const EditModal = ({ onclose, editableState }) => {
   
 

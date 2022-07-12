@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
 import { BACKEND_URL } from "../../consts";
 import { IsRequired, MaxLength20, MinLength3 } from "../../helpers/validations";
-
+import "./styles.css"
 
 export const ContactPage = () => {
 const [contactData ,setContactData] = useState({
@@ -77,7 +77,9 @@ const [contactData ,setContactData] = useState({
     });
   }
   return (
-    <Form >
+    <div className="contact-page-wrapper">
+      <div className="contact-img-wrapper"><img src="https://us.123rf.com/450wm/shadowalice/shadowalice1504/shadowalice150400221/38321576-message-icons-set-great-for-any-use.jpg?ver=6" alt="" /></div>
+      <div className="contact-form-wrapper">     <Form >
       <FormGroup>
         <Label for="nameId">
           Name
@@ -120,6 +122,9 @@ const [contactData ,setContactData] = useState({
       <Button onClick={onSubmit}>
           Submit
          </Button>
-    </Form>
+    </Form></div>
+ 
+    </div>
+    
   )
 }

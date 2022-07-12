@@ -1,9 +1,12 @@
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux'
 import { taskReducer } from './reducers/task-reducer'
 import thunk from 'redux-thunk'
+import { authReducer } from './reducers/auth-reducer'
 
 const rootReducer = combineReducers({
-    taskReducerState: taskReducer
+    taskReducerState: taskReducer,
+    authReducerState: authReducer,
+
 })
 
 const middlewares = [thunk]

@@ -63,9 +63,13 @@ export const addNewTaskThunk = (formData,onSubmitCallback) => (dispatch, getStat
     })
         .then((response) => response.json())
         .then((data) => {
+            if(data.error) {
+                throw data.error
+            }
             dispatch(addNewTaskAction(data))
             onSubmitCallback();
-        });
+        })
+        .catch(err => console.log(err))
 }
 export const removeMultipleTasksThunk = (batchDelTasks) => (dispatch,getState) => {
     fetch(`${BACKEND_URL}/task`, {
@@ -121,4 +125,17 @@ export const getTasksStatusThunk = (status) => (dispatch) => {
     })
     .then(res => res.json())
     .then(data => dispatch(setTasksAction(data)))
+}
+
+export const logOutThunk = (token) => () => {
+    fetch(`${BACKEND_URL}/user/sign-out`,{
+        method:"POST",
+        headers:{"Content-Type": "application/json"},
+        body:JSON.stringify({jwt:token})
+    })
+    .then(res => res.json())
+    .then(() => {
+        localStorage.removeItem("token")
+        localStorage.removeItem("refreshToken")
+    })
 }
